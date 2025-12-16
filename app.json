@@ -1,0 +1,59 @@
+{
+  "name": "FY'S PROPERTY WhatsApp Bot",
+  "description": "Premium WhatsApp Bot with Shadow Payment Gateway, Admin Dashboard, API & Transaction Tracking",
+  "repository": "https://github.com/your-username/fys-property-bot",
+  "keywords": ["whatsapp", "bot", "mpesa", "payments", "nodejs", "api"],
+  "stack": "heroku-24",
+  "scripts": {
+    "postdeploy": "echo 'Deployment complete'"
+  },
+  "env": {
+    "SHADOW_API_KEY": {
+      "description": "Your Shadow Payment Gateway API Key",
+      "required": true
+    },
+    "SHADOW_API_SECRET": {
+      "description": "Your Shadow Payment Gateway API Secret",
+      "required": true
+    },
+    "SHADOW_ACCOUNT_ID": {
+      "description": "Your Shadow Payment Account ID",
+      "value": "17"
+    },
+    "SUPER_ADMIN": {
+      "description": "Super Admin WhatsApp number (e.g., 254712345678)",
+      "required": true
+    },
+    "ADMIN_LABEL": {
+      "description": "Admin label shown in broadcasts",
+      "value": "Admin"
+    },
+    "NODE_ENV": {
+      "value": "production"
+    },
+    "PUPPETEER_SKIP_CHROMIUM_DOWNLOAD": {
+      "value": "true"
+    },
+    "PUPPETEER_EXECUTABLE_PATH": {
+      "value": "/app/.apt/usr/bin/google-chrome-stable"
+    },
+    "GOOGLE_CHROME_BIN": {
+      "value": "/app/.apt/usr/bin/google-chrome-stable"
+    }
+  },
+  "addons": ["heroku-postgresql:essential-0"],
+  "buildpacks": [
+    {
+      "url": "https://github.com/jontewks/puppeteer-heroku-buildpack"
+    },
+    {
+      "url": "heroku/nodejs"
+    }
+  ],
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "basic"
+    }
+  }
+}

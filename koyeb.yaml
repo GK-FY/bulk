@@ -1,0 +1,54 @@
+name: fys-property-bot
+type: web
+definition:
+  regions:
+    - fra
+  instance_types:
+    type: small
+  scaling:
+    min: 1
+    max: 1
+  ports:
+    - port: 5000
+      protocol: http
+  routes:
+    - path: /
+      port: 5000
+  health_checks:
+    - port: 5000
+      protocol: http
+      path: /health
+      interval_seconds: 60
+      timeout_seconds: 30
+      healthy_threshold: 1
+      unhealthy_threshold: 5
+      grace_period_seconds: 120
+  env:
+    - key: NODE_ENV
+      value: production
+    - key: PORT
+      value: "5000"
+    - key: PUPPETEER_SKIP_CHROMIUM_DOWNLOAD
+      value: "true"
+    - key: PUPPETEER_EXECUTABLE_PATH
+      value: /usr/bin/chromium
+    - key: CHROMIUM_PATH
+      value: /usr/bin/chromium
+    - key: SHADOW_API_KEY
+      secret: shadow-api-key
+    - key: SHADOW_API_SECRET
+      secret: shadow-api-secret
+    - key: SHADOW_ACCOUNT_ID
+      secret: shadow-account-id
+    - key: SUPER_ADMIN
+      secret: super-admin
+    - key: DATABASE_URL
+      secret: database-url
+    - key: ADMIN_LABEL
+      value: Admin
+  build:
+    type: docker
+    docker:
+      dockerfile: Dockerfile
+  run:
+    command: node main.js

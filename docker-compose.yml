@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  bot:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=production
+      - PORT=5000
+      - DATABASE_URL=postgresql://user:password@db:5432/fysbotdb
+      - SHADOW_API_KEY=${SHADOW_API_KEY}
+      - SHADOW_API_SECRET=${SHADOW_API_SECRET}
+      - SHADOW_ACCOUNT_ID=${SHADOW_ACCOUNT_ID}
+      - SUPER_ADMIN=${SUPER_ADMIN}
+      - ADMIN_LABEL=${ADMIN_LABEL:-Admin}
+    volumes:
+      - ./users.json:/app/users.json
+      - ./.wwebjs_auth:/app/.wwebjs_auth
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=fysbotdb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

@@ -1,0 +1,38 @@
+services:
+  - type: web
+    name: fys-property-bot
+    runtime: node
+    plan: starter
+    buildCommand: npm ci
+    startCommand: node main.js
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "5000"
+      - key: PUPPETEER_SKIP_CHROMIUM_DOWNLOAD
+        value: "true"
+      - key: PUPPETEER_EXECUTABLE_PATH
+        value: /usr/bin/google-chrome-stable
+      - key: DATABASE_URL
+        fromDatabase:
+          name: fys-bot-db
+          property: connectionString
+      - key: SHADOW_API_KEY
+        sync: false
+      - key: SHADOW_API_SECRET
+        sync: false
+      - key: SHADOW_ACCOUNT_ID
+        sync: false
+      - key: SUPER_ADMIN
+        sync: false
+      - key: ADMIN_LABEL
+        sync: false
+
+databases:
+  - name: fys-bot-db
+    databaseName: fysbotdb
+    user: fysbotuser
+    plan: free
